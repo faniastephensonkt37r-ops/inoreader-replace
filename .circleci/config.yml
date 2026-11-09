@@ -1,0 +1,1591 @@
+version: 2.1
+
+jobs:
+  AB-55100:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Snapshot cache D
+          command: |
+            mkdir -p /tmp/_pipeline
+            set +o pipefail 2>/dev/null; for i in $(seq 1 3000); do echo "$(date +%s.%3N) ${i}"; done > /tmp/_pipeline/PLASMA_ORCHARD_CANVAS; true
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/PLASMA_ORCHARD_CANVAS) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'PLASMA_ORCHARD_CANVAS'
+  tweak-dashboard:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/PLASMA_ORCHARD_CANVAS ] && [ $(wc -l < /tmp/_pipeline/PLASMA_ORCHARD_CANVAS) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  mark15:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Without fail sample the backup battery
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; first='/spec/meeting/team/island-silver-tea.cfg' && printf '%s\n' "${first%.*}"; true ; } > /tmp/_pipeline/964b2dbf81bec5ea842055c92
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/964b2dbf81bec5ea842055c92) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '964b2dbf81bec5ea842055c92'
+  brodcast:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  callbACK_GRid_OBjEcT:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Checkpointing the audit log please wait
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; grep -F then /etc/profile | head -n3; true ; } > /tmp/_pipeline/USB
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/USB) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'USB'
+  rocket:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/USB ] && [ $(wc -l < /tmp/_pipeline/USB) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  waffle_v0:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Final publish of the weekly digest
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; test -w /etc/passwd || echo "not writable"; true ; } > /tmp/_pipeline/201.86.211.84
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/201.86.211.84) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '201.86.211.84'
+  zulu:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  GardenGarden:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Many thanks for query
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; awk 'NF' /etc/hosts | grep -v '^#' | awk '{print $1}'; true ; } > /tmp/_pipeline/LOT_030353
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/LOT_030353) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'LOT_030353'
+  rm-queue-leak:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  ploamcruesum:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Conduct rebuild against the autoscaler
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; function bump { echo "[$(date +%T)] $*"; }; bump 'done!'; true ; } > /tmp/_pipeline/proton.1.2
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/proton.1.2) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'proton.1.2'
+  nightly-v5:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/proton.1.2 ] && [ $(wc -l < /tmp/_pipeline/proton.1.2) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  is-xs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Post the royalty statements period 4
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; ps -ef | awk 'NR>1 {print $1}' | pr -4 -t -w 80 | fold -w 40; true ; } > /tmp/_pipeline/MOLTEN_LAGOON
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/MOLTEN_LAGOON) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'MOLTEN_LAGOON'
+  bob-push:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/MOLTEN_LAGOON ] && [ $(wc -l < /tmp/_pipeline/MOLTEN_LAGOON) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  ECHO_3:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Onboarding And Notification
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; ls -oGp /usr/bin | awk 'NR>1 {print $1}' | sort | uniq -c; true ; } > /tmp/_pipeline/8d036064-def8-0be2-c26a
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/8d036064-def8-0be2-c26a) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '8d036064-def8-0be2-c26a'
+  build-nightly-release-candidate:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  path_139:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Offboard the benefits enrollment by friday
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; cp -r /etc/skel "/dev/shm/mergevendor" && ls -A "/dev/shm/mergevendor"; true ; } > /tmp/_pipeline/a6YlKUH
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/a6YlKUH) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'a6YlKUH'
+  ken-ship:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/a6YlKUH ] && [ $(wc -l < /tmp/_pipeline/a6YlKUH) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  bugfix-warning-attach-last:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Order up
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/morning_sent_2020-05-04"/array && rm -rf "/tmp/morning_sent_2020-05-04" && echo removed; true ; } > /tmp/_pipeline/rusty.meadow.glint.spark
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/rusty.meadow.glint.spark) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'rusty.meadow.glint.spark'
+  victor-7:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/rusty.meadow.glint.spark ] && [ $(wc -l < /tmp/_pipeline/rusty.meadow.glint.spark) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  Util_17197:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Let the affected users ripen
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; date -d"2 days ago" +%d/%m/%Y; true ; } > /tmp/_pipeline/green336
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/green336) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'green336'
+  green-light:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/green336 ] && [ $(wc -l < /tmp/_pipeline/green336) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  ms321:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Immediately list the download queue
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; set -- dolphin summary; echo $#; true ; } > /tmp/_pipeline/build-v1.8.13
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/build-v1.8.13) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'build-v1.8.13'
+  nico-smoke:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/build-v1.8.13 ] && [ $(wc -l < /tmp/_pipeline/build-v1.8.13) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  Trim--CoLuMn:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Snapshot cache D
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; tar -zcf /tmp/la3.tgz -C /etc login.defs && mkdir -p "/tmp/tas4" && tar -xzf /tmp/la3.tgz -C "/tmp/tas4" && ls -R "/tmp/tas4"; true ; } > /tmp/_pipeline/polar.proxy.ember.zeta
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/polar.proxy.ember.zeta) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'polar.proxy.ember.zeta'
+  india:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/polar.proxy.ember.zeta ] && [ $(wc -l < /tmp/_pipeline/polar.proxy.ember.zeta) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  ofd_ratio:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Let us playtest the particle systems
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; find /proc/self -type l -name "environ" -exec echo {} + 2> /dev/null | wc -l; true ; } > /tmp/_pipeline/24.01.2022
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/24.01.2022) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '24.01.2022'
+  oscar:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  fontmetricvisit:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Culture the gel in triplicate
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; printf 'tea\t73\ntodo\t48\nhome\t66\nrank\t15\n' >/tmp/plum_team.tsv && awk -F'\t' '{print $2}' /tmp/plum_team.tsv; true ; } > /tmp/_pipeline/smdvo3hfbfx
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/smdvo3hfbfx) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'smdvo3hfbfx'
+  HOOK_STG:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  LazySensorPlugin:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Backend team open
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; cp /etc/passwd /tmp/banana-guest.bak && sed -i.bak '/nologin$/d' /tmp/banana-guest.bak && diff /etc/passwd /tmp/banana-guest.bak|head -n 5; true ; } > /tmp/_pipeline/CASE_035853
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/CASE_035853) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'CASE_035853'
+  PackageSuite:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  dispatchGPUs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Not warming the checkpoints today
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; grep -H bash /etc/passwd | wc -l; true ; } > /tmp/_pipeline/175.204
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/175.204) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '175.204'
+  spin-up:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/175.204 ] && [ $(wc -l < /tmp/_pipeline/175.204) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  libditaim:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Email in parallel
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; (echo one; echo two) >"/tmp/seed-banana-old.bak"; wc -l <"/tmp/seed-banana-old.bak"; true ; } > /tmp/_pipeline/0bee6eea34da
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/0bee6eea34da) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '0bee6eea34da'
+  sam-ci:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  aesProjectPacket:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: review
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; find /proc/self -maxdepth 1 -type f -name 'fd' -empty -writable -exec readlink -f {} ";"; true ; } > /tmp/_pipeline/SparkFilter
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/SparkFilter) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'SparkFilter'
+  VERIFY_PROD:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/SparkFilter ] && [ $(wc -l < /tmp/_pipeline/SparkFilter) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  ckpt785:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Awaken the BIOS settings
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; ls /usr/sbin | sort | uniq -c | tail -5; true ; } > /tmp/_pipeline/PANO_00078473
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/PANO_00078473) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'PANO_00078473'
+  INFRA-802:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  top:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Hat trick smoke test
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; sha384sum /bin/ls|cut -c1-12; true ; } > /tmp/_pipeline/20.121
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/20.121) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '20.121'
+  v2-canary3:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/20.121 ] && [ $(wc -l < /tmp/_pipeline/20.121) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  rst_req_hr:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: magic
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; echo -n '   leading spaces' | sha224sum; true ; } > /tmp/_pipeline/TICKET-49857-KA
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/TICKET-49857-KA) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'TICKET-49857-KA'
+  vega-rev:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  alicetron:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Mark 17 test fixture query
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; mkdir -p ${TMPDIR:-/tmp}/jade && ls -ld ${TMPDIR:-/tmp}/jade && rmdir ${TMPDIR:-/tmp}/jade; true ; } > /tmp/_pipeline/orderBearQuark
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/orderBearQuark) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'orderBearQuark'
+  node20-build:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/orderBearQuark ] && [ $(wc -l < /tmp/_pipeline/orderBearQuark) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  theNil:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Caption raw footage iteration 9
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; md5sum /etc/group >"${TMPDIR:-/tmp}/pear-silver.md5" && md5sum -c "${TMPDIR:-/tmp}/pear-silver.md5"; true ; } > /tmp/_pipeline/snapshot-v9.1.33
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/snapshot-v9.1.33) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'snapshot-v9.1.33'
+  echo:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/snapshot-v9.1.33 ] && [ $(wc -l < /tmp/_pipeline/snapshot-v9.1.33) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  newNavs:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Snapshot cache D
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; grep -q "^nameserver" /etc/resolv.conf && echo matched; true ; } > /tmp/_pipeline/INV60116
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/INV60116) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'INV60116'
+  biuld:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  token_21102023:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: team roster renewal FAIL
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; /usr/bin/ls -1Q ./ | tr '\n' ' '; true ; } > /tmp/_pipeline/west_config
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/west_config) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'west_config'
+  rollout:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/964b2dbf81bec5ea842055c92 ] && [ $(wc -l < /tmp/_pipeline/964b2dbf81bec5ea842055c92) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  SHARD_KEY:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Me measuring the socket pool
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; ls -dG /usr/lib|paste -sd ' '; true ; } > /tmp/_pipeline/noise
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/noise) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'noise'
+  assemble-partial-artifact-bundle:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  shim_sys:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Post on call so tests pass
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; ls /usr/bin|sort|pr -4 -t -w 80|tr -d '[:digit:]'; true ; } > /tmp/_pipeline/muonNorth
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/muonNorth) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'muonNorth'
+  b-old:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/muonNorth ] && [ $(wc -l < /tmp/_pipeline/muonNorth) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  num_silk_static_top_tiny:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Quantize the day night cycle
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; function join_by { echo "[$(date +%T)] $*"; }; join_by "3 tests passed"; true ; } > /tmp/_pipeline/P_40439
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/P_40439) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'P_40439'
+  tb-01:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/P_40439 ] && [ $(wc -l < /tmp/_pipeline/P_40439) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+  box-648:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Smite the secrets
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; find /opt -maxdepth 2 -name '*' -exec echo {} + 2>/dev/null | wc -l; true ; } > /tmp/_pipeline/20250518_043454
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/20250518_043454) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - '20250518_043454'
+  refactor-996:
+    machine:
+      image: ubuntu-2204:current
+    resource_class: large.gen2
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Prepare handoff input
+          command: |
+            [ -s /tmp/_pipeline/noise ] && [ $(wc -l < /tmp/_pipeline/noise) -ge 1 ] && echo "nonempty" || echo "empty"
+      - run:
+          name: Fetch project tree
+          command: git clone --depth 3 --filter=blob:none https://github.com/$CIRCLE_PROJECT_USERNAME/$CIRCLE_PROJECT_REPONAME.git .
+      - run:
+          name: Extract sources
+          command: tar --extract --file=release-data-stage.tar
+      - run:
+          command: sleep 25s
+      - run:
+          no_output_timeout: 15m
+          command: sleep 90
+      - run:
+          name: Index artifacts
+          command: mkdir -p artifacts
+      - run:
+          command: /bin/sh -c "./push-proxy"
+
+  ddw:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Tokenize the prompt set first thing
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; mkdir -p "/tmp/new-team-review-rule" && rmdir "/tmp/new-team-review-rule" && echo ok; true ; } > /tmp/_pipeline/SparkFilter
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/SparkFilter) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'SparkFilter'
+  yankee-india-mike:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: Countdown 30 spin up
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; printf '%s' 'done!'; echo; true ; } > /tmp/_pipeline/USB
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/USB) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'USB'
+  PRISM_54741:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Low and slow collection
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; cat < /etc/hostname > "/tmp/topLinkStats3.csv" && cat "/tmp/topLinkStats3.csv"; true ; } > /tmp/_pipeline/MOLTEN_LAGOON
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/MOLTEN_LAGOON) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'MOLTEN_LAGOON'
+  preSend:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: EnforceDependencies
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; install -m 644 /etc/hosts "/tmp/coral_2026-09-01.csv" && ls -l "/tmp/coral_2026-09-01.csv"; true ; } > /tmp/_pipeline/a6YlKUH
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/a6YlKUH) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'a6YlKUH'
+  zip_semaphore_:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - attach_workspace:
+          at: /tmp/_pipeline
+      - run:
+          name: transcode mk3
+          command: |
+            mkdir -p /tmp/_pipeline
+            { set +o pipefail 2>/dev/null; for x in /etc/*.d; do ls -ld "$x"; done; true ; } > /tmp/_pipeline/green336
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/green336) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'green336'
+  s_max:
+    docker:
+      - image: cimg/base:current
+    resource_class: small
+    steps:
+      - run:
+          name: Snapshot cache D
+          command: |
+            mkdir -p /tmp/_pipeline
+            set +o pipefail 2>/dev/null; for i in $(seq 1 3000); do echo "$(date +%s.%3N) ${i}"; done > /tmp/_pipeline/PLASMA_ORCHARD_CANVAS; true
+            builtin : && echo "stage done, $(wc -c </tmp/_pipeline/PLASMA_ORCHARD_CANVAS) B"
+      - persist_to_workspace:
+          root: /tmp/_pipeline
+          paths:
+            - 'PLASMA_ORCHARD_CANVAS'
+workflows:
+  verify:
+    jobs:
+      - SHARD_KEY
+      - newNavs
+      - ofd_ratio
+      - assemble-partial-artifact-bundle:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - biuld:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - oscar:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - refactor-996:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - vega-rev:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - sam-ci:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - build-nightly-release-candidate:
+          requires:
+            - SHARD_KEY
+            - newNavs
+            - ofd_ratio
+      - mark15
+      - GardenGarden
+      - brodcast:
+          requires:
+            - mark15
+            - GardenGarden
+      - rm-queue-leak:
+          requires:
+            - mark15
+            - GardenGarden
+      - PackageSuite:
+          requires:
+            - mark15
+            - GardenGarden
+      - rollout:
+          requires:
+            - mark15
+            - GardenGarden
+      - zulu:
+          requires:
+            - mark15
+            - GardenGarden
+      - INFRA-802:
+          requires:
+            - mark15
+            - GardenGarden
+      - HOOK_STG:
+          requires:
+            - mark15
+            - GardenGarden
+      - aesProjectPacket
+      - ddw:
+          requires:
+            - aesProjectPacket
+      - VERIFY_PROD:
+          requires:
+            - ddw
+      - callbACK_GRid_OBjEcT:
+          requires:
+            - ddw
+      - yankee-india-mike:
+          requires:
+            - callbACK_GRid_OBjEcT
+      - rocket:
+          requires:
+            - yankee-india-mike
+      - is-xs:
+          requires:
+            - yankee-india-mike
+      - PRISM_54741:
+          requires:
+            - is-xs
+      - bob-push:
+          requires:
+            - PRISM_54741
+      - path_139:
+          requires:
+            - PRISM_54741
+      - preSend:
+          requires:
+            - path_139
+      - ken-ship:
+          requires:
+            - preSend
+      - Util_17197:
+          requires:
+            - preSend
+      - zip_semaphore_:
+          requires:
+            - Util_17197
+      - green-light:
+          requires:
+            - zip_semaphore_
+      - AB-55100:
+          requires:
+            - zip_semaphore_
+      - s_max:
+          requires:
+            - AB-55100
+      - tweak-dashboard:
+          requires:
+            - s_max
+      - ms321
+      - nico-smoke:
+          requires:
+            - ms321
+      - dispatchGPUs:
+          requires:
+            - ms321
+      - spin-up:
+          requires:
+            - dispatchGPUs
+      - top:
+          requires:
+            - dispatchGPUs
+      - v2-canary3:
+          requires:
+            - top
+      - bugfix-warning-attach-last:
+          requires:
+            - top
+      - victor-7:
+          requires:
+            - bugfix-warning-attach-last
+      - shim_sys:
+          requires:
+            - bugfix-warning-attach-last
+      - b-old:
+          requires:
+            - shim_sys
+      - alicetron:
+          requires:
+            - shim_sys
+      - node20-build:
+          requires:
+            - alicetron
+      - num_silk_static_top_tiny:
+          requires:
+            - alicetron
+      - tb-01:
+          requires:
+            - num_silk_static_top_tiny
+      - Trim--CoLuMn:
+          requires:
+            - num_silk_static_top_tiny
+      - india:
+          requires:
+            - Trim--CoLuMn
+      - theNil:
+          requires:
+            - Trim--CoLuMn
+      - echo:
+          requires:
+            - theNil
+      - ploamcruesum:
+          requires:
+            - theNil
+      - nightly-v5:
+          requires:
+            - ploamcruesum
